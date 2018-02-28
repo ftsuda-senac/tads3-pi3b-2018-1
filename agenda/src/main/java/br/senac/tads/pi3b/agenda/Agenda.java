@@ -5,6 +5,7 @@
  */
 package br.senac.tads.pi3b.agenda;
 
+import com.mysql.jdbc.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -62,14 +63,52 @@ public class Agenda {
 
     public void incluir(Pessoa p, String email, String telefone) throws ClassNotFoundException, SQLException {
 
-        try (Connection conn = obterConexao();
-                PreparedStatement stmt = conn.prepareStatement(
-                        "INSERT INTO PESSOA (nome, dtnascimento) VALUES (?,?)")) {
-            stmt.setString(1, p.getNome());
-            stmt.setDate(2, new java.sql.Date(p.getDtNascimento().getTime()));
+        try (Connection conn = obterConexao()) {
+            conn.setAutoCommit(false);
 
-            int status = stmt.executeUpdate();
-            System.out.println("Status: " + status);
+            try (PreparedStatement stmt
+                    = conn.prepareStatement(
+                            "INSERT INTO PESSOA (nome, dtnascimento) VALUES (?,?)",
+                            Statement.RETURN_GENERATED_KEYS)) {
+                stmt.setString(1, p.getNome());
+                stmt.setDate(2, new java.sql.Date(p.getDtNascimento().getTime()));
+
+                int status = stmt.executeUpdate();
+
+                // Recupera o ID gerado pelo Banco de dados
+                ResultSet generatedKeys = stmt.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    long idPessoa = generatedKeys.getLong(1);
+
+                    try (PreparedStatement stmt2
+                            = conn.prepareStatement(
+                                    "INSERT INTO CONTATO (tipo, valor, idpessoa) " // espaco
+                                    + "VALUES (?,?,?)")) {
+                        // E-mail
+                        stmt2.setInt(1, 1);
+                        stmt2.setString(2, email);
+                        stmt2.setLong(3, idPessoa);
+                        stmt2.executeUpdate();
+                    }
+                    try (PreparedStatement stmt3 = conn.prepareStatement(
+                            "INSERT INTO CONTATO (tipo, valor, idpessoa) " // espaco
+                            + "VALUES (?,?,?)")) {
+                        // Telefone
+                        stmt3.setInt(1, 2);
+                        stmt3.setString(2, telefone);
+                        stmt3.setLong(3, idPessoa);
+                        stmt3.executeUpdate();
+                    }
+
+                    // Efetivar todas as operações no BD
+                    conn.commit();
+                }
+
+            } catch (SQLException e) {
+                // Em caso de erro, volta para situação inicial
+                conn.rollback();
+                throw e;
+            }
         }
     }
 
