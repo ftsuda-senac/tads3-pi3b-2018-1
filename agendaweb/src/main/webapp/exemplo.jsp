@@ -9,10 +9,12 @@
     <title>JSP Page</title>
   </head>
   <body>
+    <h1>Exemplo JSP + Scriptlet</h1>
+    <hr />
     <%
       for (int i = 1; i <= 100; i++) {
     %>
-    <h1><%= mensagem %> <%= i %></h1>
+    <h1><%= mensagem%> <%= i%></h1>
     <%
       }
     %>
