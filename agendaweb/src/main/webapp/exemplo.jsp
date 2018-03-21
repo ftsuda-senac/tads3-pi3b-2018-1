@@ -9,6 +9,12 @@
     <title>JSP Page</title>
   </head>
   <body>
-    <h1><%= mensagem %></h1>
+    <%
+      for (int i = 1; i <= 100; i++) {
+    %>
+    <h1><%= mensagem %> <%= i %></h1>
+    <%
+      }
+    %>
   </body>
 </html>
