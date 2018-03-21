@@ -14,7 +14,14 @@
     <h1>Exemplo JSP + EL + JSTL</h1>
     <hr />
     <c:forEach begin="1" end="100" varStatus="status">
-      <h1><c:out value="${msg}" /> <c:out value="${status.index}" /></h1>
+      <c:choose>
+	<c:when test="${status.index % 2 == 0}">
+	  <h1 style="color: red"><c:out value="${msg}" /> <c:out value="${status.index}" /></h1>
+	</c:when>
+	<c:otherwise>
+	  <h1 style="color: blue"><c:out value="${msg}" /> <c:out value="${status.index}" /></h1>
+	</c:otherwise>
+      </c:choose>
     </c:forEach>
   </body>
 </html>
