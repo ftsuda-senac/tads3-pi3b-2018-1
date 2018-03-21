@@ -24,14 +24,22 @@ public class ExemploServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String mensagem = "Primeiro exemplo Servlet";
-        
+
         // Configuração da resposta a ser retornada
-        response.setContentType("text/plain"); // Tipo de conteúdo
+        response.setContentType("text/html"); // Tipo de conteúdo
         response.setCharacterEncoding("UTF-8"); // Codificação do conteúdo
-        
+
         // Abre o objeto de saída para enviar a mensagem ao cliente
         try (PrintWriter out = response.getWriter()) {
-            out.println(mensagem);
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<meta charset=\"utf-8\">");
+            out.println("<title>Exemplo Servlet</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>" + mensagem + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
             out.flush();
         }
 
