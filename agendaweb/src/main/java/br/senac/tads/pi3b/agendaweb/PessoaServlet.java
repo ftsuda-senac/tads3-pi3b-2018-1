@@ -28,12 +28,18 @@ public class PessoaServlet extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
 	  throws ServletException, IOException {
     
+    String nome = request.getParameter("nome");
+    String dtNasc = request.getParameter("nascimento");
+    
     List<Pessoa> resultados = new ArrayList<Pessoa>();
     Pessoa p1 = new Pessoa(1L, "Fulano da Silva", "23/03/2000");
     resultados.add(p1);
     Pessoa p2 = new Pessoa(2L, "Ciclana de Souza", "01/12/1999");
     resultados.add(p2);
     resultados.add(new Pessoa(3L, "Beltrana da Silva", "03/04/2001"));
+    if (nome != null && dtNasc != null) {
+      resultados.add(new Pessoa(4L, nome, dtNasc));
+    }
     
     request.setAttribute("pessoas", resultados);
     RequestDispatcher dispatcher = 
