@@ -22,6 +22,12 @@ public class Pessoa {
     
     private Date dtNascimento;
     
+    private String email;
+    
+    private String telefone;
+    
+    private int sexo;
+    
     public Pessoa() {
       
     }
@@ -60,5 +66,25 @@ public class Pessoa {
     public void setDtNascimento(Date dtNascimento) {
         this.dtNascimento = dtNascimento;
     }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public String getTelefone() {
+    return telefone;
+  }
+
+  public void setTelefone(String telefone) {
+    this.telefone = telefone;
+  }
+
+  public int getSexo() {
+    return sexo;
+  }
+
+  public void setSexo(int sexo) {
+    this.sexo = sexo;
+  }
     
 }
