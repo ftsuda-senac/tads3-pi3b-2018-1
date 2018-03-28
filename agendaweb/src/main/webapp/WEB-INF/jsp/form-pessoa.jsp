@@ -6,6 +6,7 @@
     <title>JSP Page</title>
   </head>
   <body>
+    <img src="${pageContext.request.contextPath}/img/bozo.jpg"/>
     <h1>Formulário pessoa</h1>
     <div>
       <form action="${pageContext.request.contextPath}/cadastro-pessoa"
