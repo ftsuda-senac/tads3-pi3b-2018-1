@@ -4,7 +4,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>xemplo sessão</title>
+    <title>Exemplo sessão</title>
   </head>
   <body>
     <h1>Exemplo sessão</h1>
