@@ -3,11 +3,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>JSP Page</title>
+    <meta charset="UTF-8">
+    <title>xemplo sessão</title>
   </head>
   <body>
     <h1>Exemplo sessão</h1>
+    <h2>JSESSIONID=<c:out value="${pageContext.request.session.id}" /></h2>
     <form action="${pageContext.request.contextPath}/exemplo-sessao" method="post">
       <div>
 	<label>Digite um nome:</label>
@@ -15,12 +16,12 @@
       </div>
       <button>Adicionar</button>
     </form>
-    <c:if test="${not empty nomes}">
+    <c:if test="${not empty sessionScope.nomes}">
       <h2>Nomes digitados:</h2>
       <ul>
-	<c:forEach items="${nomes}" var="nome">
+	<c:forEach items="${sessionScope.nomes}" var="nome">
 	  <li><c:out value="${nome}" /></li>
-	  </c:forEach>
+	</c:forEach>
       </ul>
     </c:if>
 
