@@ -24,18 +24,23 @@ public class LoginServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
 	  throws ServletException, IOException {
-    request.getRequestDispatcher("/WEB-INF/jsp/login.jsp")
-	    .forward(request, response);
+    HttpSession sessao = request.getSession();
+    if (sessao.getAttribute("usuario") != null) {
+      // Usuario ja esta logado
+      response.sendRedirect(request.getContextPath() + "/home");
+    } else {
+      request.getRequestDispatcher("/WEB-INF/jsp/login.jsp")
+	      .forward(request, response);
+    }
   }
-
 
   @Override
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
 	  throws ServletException, IOException {
-    
+
     String username = request.getParameter("username");
     String senha = request.getParameter("senha");
-    
+
     UsuarioSistemaService service = new UsuarioSistemaService();
     UsuarioSistema usuario = service.buscarPorUsername(username);
     if (usuario != null && usuario.validarSenha(senha)) {
