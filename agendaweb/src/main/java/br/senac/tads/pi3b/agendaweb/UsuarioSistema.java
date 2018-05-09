@@ -7,6 +7,7 @@ package br.senac.tads.pi3b.agendaweb;
 
 import java.io.Serializable;
 import java.util.List;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *
@@ -18,17 +19,17 @@ public class UsuarioSistema implements Serializable {
 
   private String nomeCompleto;
 
-  private String senha;
+  private String hashSenha;
 
   private List<Papel> papeis;
 
   public UsuarioSistema() {
   }
 
-  public UsuarioSistema(String username, String nomeCompleto, String senha, List<Papel> papeis) {
+  public UsuarioSistema(String username, String nomeCompleto, String senhaAberta, List<Papel> papeis) {
     this.username = username;
     this.nomeCompleto = nomeCompleto;
-    this.senha = senha;
+    setSenha(senhaAberta);
     this.papeis = papeis;
   }
 
@@ -48,12 +49,16 @@ public class UsuarioSistema implements Serializable {
     this.nomeCompleto = nomeCompleto;
   }
 
-  public String getSenha() {
-    return senha;
+  public String getHashSenha() {
+    return hashSenha;
   }
 
-  public void setSenha(String senha) {
-    this.senha = senha;
+  public void setHashSenha(String senha) {
+    this.hashSenha = senha;
+  }
+  
+  public void setSenha(String senhaAberta) {
+    this.hashSenha = BCrypt.hashpw(senhaAberta, BCrypt.gensalt());
   }
 
   public List<Papel> getPapeis() {
@@ -64,8 +69,8 @@ public class UsuarioSistema implements Serializable {
     this.papeis = papeis;
   }
   
-  public boolean validarSenha(String senha) {
-    return this.senha.equals(senha);
+  public boolean validarSenha(String senhaAberta) {
+    return BCrypt.checkpw(senhaAberta, hashSenha);
   }
   
   public boolean verificarPapel(String nomePapel) {

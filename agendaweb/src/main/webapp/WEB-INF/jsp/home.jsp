@@ -9,5 +9,15 @@
   <body>
     <h1>Página principal</h1>
     <h2>Bem vindo <c:out value="${sessionScope.usuario.nomeCompleto}" /></h2>
+    <h3>Hash BCrypt gerado: <c:out value="${sessionScope.usuario.hashSenha}" /></h3>
+
+    <c:if test="${sessionScope.usuario.verificarPapel('FODON')
+		  || sessionScope.usuario.verificarPapel('GOD')}">
+	  <a href="${pageContext.request.contextPath}/protegido/chernobyl">Ver plano chernobyl</a>
+    </c:if>
+	  
+    <c:if test="${sessionScope.usuario.verificarPapel('GOD')}">
+      <h3>Ligar</h3>
+    </c:if>
   </body>
 </html>
